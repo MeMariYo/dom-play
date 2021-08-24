@@ -2,53 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Time of Day</title>
+    <title>Dom Play</title>
     <meta name="robots" content="noindex,nofollow" />
-    <style>
-		* {padding:0; margin:0;}
-		html {background-color:#ccc;}
-		body {
-			font-family: Arial, Helvetica, sans-serif;
-			max-width:960px; /* keeps from getting too large on wide screen */
-			width:90%; /* shrink to fit screen */
-			margin:auto; /* center in html element */
-			background-color:#fff;
-			padding:20px;
-			min-height:100%; /* keeps from getting too large on wide screen */
-			}
-		img.flexible {
-			float:right;
-			display:inline-block;
-			padding:20px;
-			max-width:300px; /* actual size of image */
-			width:33%; /* approximate size taken on screen in maximum view */
-		}
-		p {margin:10px;}
-		h1,h2,h3,h4,h5,h6{
-			font-weight:normal;
-			margin:10px;
-			}
-		h1.masthead {margin-top:0;}
-		footer {
-			text-align:center;
-			clear:both; /* ride below all items */
-			}
-		nav{
-			text-align:center; /* centers the nav */
-		}
-		
-		nav ul {
-				list-style:none; /* removes the bullets */
-			}
-		nav ul li
-			{
-				display:inline-block; /* makes horizontal, but able to declare margins */
-				margin:0 2%; /* margin left-right, gets smaller as necessary */
-			}
-		nav a:hover{
-			text-decoration: none;
-		}	
-    </style>
    
     <!--[if ltIE9]>
        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -56,25 +11,35 @@
 </head>
 <body>
 	<header>
-		<h1 class="masthead">Time of Day</h1>
+		<h1 class="masthead">Dom Play</h1>
 	</header>
-	<h2 id="greeting">Greeting goes here</h2>
     <main>
 	 <header><h3>A Javascript Example by Kamari Senters</h3></header>
-	   <p> This is a web page that uses JavaScript to determine the current hour, 
-		   and presents a different image, custom message, and color based on each 
-		   of the following times of day: </p>
+	   <p> This is a web page that uses JavaScript for a single page application using DOM. 
+		   The page will: </p>
 		<p>   
-            <ul>
-                   <li>Morning (5am to 12 noon)</li> 
-				   <li>Afternoon (12 noon to 6pm)</li>
-				   <li>Evening (6pm to 11pm</li>
-				   <li>Night (11pm to 5am)</li>
-		    </ul>
+             <ol>
+                   <li>With a single click, highlights all lines for a specific actor in a play</li> 
+				   <li>Un-highlight (normal or otherwise) all lines from all other actors in the play</li>
+				   <li>The function(s) created to do the work must accommodate any number of actors, and additional lines added to the page</li>
+				   <li>The page must do the work without page re-loads</li>
+		    </ol>
 
 		</p>
-	  <img id="pic" src=" "alt="Picture of Me!" class="flexible" />
+	  <img id="pic" src="images/will.jpg"alt="Picture of Me!" class="flexible" />
      </main>
+
+	    <div id="play">
+			<p><span data-actor="hamlet">Hamlet: To be or not ot be?</span></p> 
+			<p><span data-actor="skull">Skull: Are you talking to me?</span></p> 
+			<p><span data-actor="hamlet">Hamlet: Did yoou say something?</span></p> 
+			<p><span data-actor="skull">Skull: No, I'm only a skull.</span></p> 
+			<p><span data-actor="ophelia">Ophelia: Hamlet! Stop taling to skulls.</span></p>
+	    </div>
+
+
+
+
     <footer>
       <small>&copy; 2020 - <span id="copyright">Copyright goes here</span> , All Rights Reserved ~
       <a href="https://validator.w3.org/check/referer" target="_blank">Valid HTML</a> ~
@@ -82,45 +47,41 @@
       </small>
     </footer>
     <script>
-		let myDate = new Date();
+		
+  
+		const spans = document.querySelectorAll('div#play span');
 
-		//console.log(myHour);
-        
-        let myText = '';
-		let myColor = '';
-		let myPic = '';
-        
-		let myHour = myDate.getHours();
+console.log(spans);
 
-        if(myHour >= 5 && myHour < 12){
-            myText = "Good Morning!";
-            mycolor = "orange";
-			myPic = "images/morning.jpg"
-		
-		} else if(myHour >= 12 && myHour < 18){
-			myText = "Good Afternoon!";
-			myColor = "yellow";
-			myPic = "images/afternoon.jpg"
-		
-		} else if(myHour >= 18 && myHour < 23){
-			myText = "Good Evening!";
-			myColor = "blue";
-			myPic = "images/evening.jpg"
-		
+for(const mySpan of spans){
+	mySpan.addEventListener('click',function(ev){
+		//alert(mySpan.dataset.actor);
+		highlightActor(mySpan.dataset.actor);
+
+	});
+}
+
+function myAlert(){
+	alert("I'm clicked!");
+}
+
+function highlightActor(myActor){
+
+	for(const mySpan of spans){
+
+		if(myActor == mySpan.dataset.actor){
+			mySpan.style.backgroundColor = 'yellow';
 		}else{
-            myText = "Good Night!";
-			myColor = "purple";
-			myPic = "images/night.jpg"
+			mySpan.style.backgroundColor = 'white';
 		}
 
-        //console.log(myText);
-        document.getElementById('greeting').innerHTML = myText; 
-		document.getElementById('greeting').style.color = myColor;
-        document.querySelector("html").style.backgroundColor =myColor;
-		document.getElementById('pic').src = myPic; 
 
-		let myYear = myDate.getFullYear();
-        document.getElementById('copyright').innerHTML = myYear;
+
+	}
+
+
+	
+}
 
 	</script>
 </body>
